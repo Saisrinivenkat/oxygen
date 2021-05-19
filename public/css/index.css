@@ -154,7 +154,7 @@ input[type=password]{
   margin-top: 20px;
 }
 
-a.button {
+.button {
   font-size: 15px;
   font-weight: 600;
   color: white;

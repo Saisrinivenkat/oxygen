@@ -1,17 +1,18 @@
 const express = require('express');
+const { requiresAuth } = require('express-openid-connect');
 const router = express.Router()
 const Post = require('../models/model')
+const { checkAuth } = require('../config/auth_middleware')
 
 
-
-router.get("/compose" , function(req, res){
+router.get("/compose" ,checkAuth, function(req, res){
   res.render("compose");
 });
 
 
 
 
-router.post("/compose", function(req, res){
+router.post("/compose", checkAuth ,function(req, res){
   const post = new Post({
     title: req.body.postTitle,
     content: req.body.postBody
