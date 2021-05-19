@@ -1,5 +1,4 @@
 const express = require('express');
-const { requiresAuth } = require('express-openid-connect');
 const router = express.Router()
 const Post = require('../models/model')
 const { checkAuth } = require('../config/auth_middleware')
@@ -19,9 +18,7 @@ router.post("/compose", checkAuth ,function(req, res){
   });
 
 
-
-
-  post.save().then(msg =>{ console.log('post Saved');res.redirect("/home")})
+  post.save().then(msg =>{ res.redirect("/home")})
   .catch(err => {res.status(400).send("unable to save to database");});
 });
 

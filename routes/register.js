@@ -4,12 +4,19 @@ const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const { checknotAuth } = require('../config/auth_middleware')
 
+//router.use(checknotAuth)
+
 router.get("/",checknotAuth, function(req, res){
   res.render("register");
 });
 
-router.post("/", checknotAuth ,async function(req, res){
-  const password = await bcrypt.hash(req.body.password,10)
+router.post("/",checknotAuth ,async function(req, res){
+  try {
+    const password = await bcrypt.hash(req.body.password,10)
+  } catch (error) {
+    console.log('Error')
+    res.status(400).send("Error On server")
+  }
   const post = new User({
     email: req.body.email,
     name: req.body.name,

@@ -1,7 +1,7 @@
+require('dotenv').config()
 const express = require("express");
 const app = express();
 const mongoose = require('mongoose')
-require('dotenv').config()
 const bodyParser = require("body-parser");
 const ejs = require("ejs"); 
 const passport = require('passport')
@@ -16,7 +16,6 @@ mongoose.connect(mongo_uri, {useNewUrlParser: true , useUnifiedTopology: true});
 mongoose.connection.once('open', () => console.log("Connected"))
                     .on('npm ierror' , ()=> { console.log('Error') })
 
-const Users = require('./models/user');
 
 //OAuth
 const UserAuth = require('./user_auth')
@@ -32,7 +31,7 @@ app.use(express.static("public"));
 
 //Session
 app.use(session({
-  secret:process.env.SECRET||'secret',
+  secret:process.env.SECRET || 'secret',
   saveUninitialized:false,
   resave:false
 }))
@@ -47,18 +46,24 @@ app.use(flash())
 const regisrouter= require('./routes/register')
 const indexrouter= require('./routes/index')
 const homeRouter = require('./routes/home')
-const composeRouter = require('./routes/compose')
 const postRouter = require('./routes/post');
-
-
 
 
 app.use('/',regisrouter);
 app.use(indexrouter);
 app.use(homeRouter);
-app.use(composeRouter);
 app.use('/posts',postRouter);
 
+app.get('/logout', (req,res) =>{
+  req.logOut()
+  req.redirect('/login');
+})
+
+//Invalid Routes
+app.get('*' , (req,res) =>{
+  req.logOut()
+  res.render('404.ejs')
+})
 
   
 app.listen(3000, function() {
