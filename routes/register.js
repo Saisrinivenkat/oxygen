@@ -13,19 +13,20 @@ router.get("/",checknotAuth, function(req, res){
 router.post("/",checknotAuth ,async function(req, res){
   try {
     const password = await bcrypt.hash(req.body.password,10)
+    const post = new User({
+      email: req.body.email,
+      name: req.body.name,
+      password : password
+    });
+  
+  
+    post.save().then(msg =>{ res.redirect("/login")})
+    .catch(err => {res.status(400).send("unable to save to database");});
   } catch (error) {
     console.log('Error')
     res.status(400).send("Error On server")
   }
-  const post = new User({
-    email: req.body.email,
-    name: req.body.name,
-    password : password
-  });
-
-
-  post.save().then(msg =>{ res.redirect("/login")})
-  .catch(err => {res.status(400).send("unable to save to database");});
+  
 });
 
 module.exports = router

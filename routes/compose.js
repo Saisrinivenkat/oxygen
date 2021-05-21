@@ -10,7 +10,6 @@ router.get("/compose" ,checkAuth, function(req, res){
 
 
 
-
 router.post("/compose", checkAuth ,function(req, res){
   const post = new Post({
     title: req.body.postTitle,

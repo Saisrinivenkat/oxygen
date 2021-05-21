@@ -10,9 +10,9 @@ const session = require("express-session")
 
 
 //DB connection
-const mongo_uri = process.env.MONGODB_URI || "mongodb://localhost/testDB";
+const mongo_uri = process.env.MONGODB_URI || "mongodb+srv://Saisrini:futuresai1@simple-messager.j9oni.mongodb.net/test";
 
-mongoose.connect(mongo_uri, {useNewUrlParser: true , useUnifiedTopology: true});
+mongoose.connect(mongo_uri, {useNewUrlParser: true , useUnifiedTopology: true})
 mongoose.connection.once('open', () => console.log("Connected"))
                     .on('npm ierror' , ()=> { console.log('Error') })
 
@@ -56,17 +56,16 @@ app.use('/posts',postRouter);
 
 app.get('/logout', (req,res) =>{
   req.logOut()
-  req.redirect('/login');
+  res.redirect('/login');
 })
 
-//Invalid Routes
-app.get('*' , (req,res) =>{
-  req.logOut()
-  res.render('404.ejs')
-})
+// //Invalid Routes
+// app.get('*' , (req,res) =>{
+//   req.logOut()
+//   res.render('404.ejs')
+// })
 
   
 app.listen(3000, function() {
   console.log("Server started on port 3000");
 });
-    
